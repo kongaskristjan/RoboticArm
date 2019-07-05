@@ -4,14 +4,13 @@ import servoLib
 import math, time
 
 def main():
-    near = servoLib.Servo(15)
-    far = servoLib.Servo(14)
+    near = servoLib.Servo(18)
+    far = servoLib.Servo(17)
 
-    while True:
-        near.setPosition(math.pi / 2)
-        time.sleep(1)
-        near.setPosition(-math.pi / 2)
-        time.sleep(1)
+    for i in range(500):
+        near.setPosition(0.8 * math.sin(0.04 * i))
+        far.setPosition(-0.8 * math.sin(0.04 * i))
+        time.sleep(0.02)
 
 
 if __name__ == "__main__":
