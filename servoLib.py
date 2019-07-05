@@ -10,12 +10,13 @@ maxAngle = math.pi / 2
 pi = pigpio.pi()
 
 class Servo:
-    def __init__(self, gpio):
+    def __init__(self, gpio, offsetAngle=0):
         self.gpio = gpio
+        self.offsetAngle = offsetAngle
         pi.set_mode(gpio, pigpio.OUTPUT)
 
     def setPosition(self, radians):
-        relativePosition = (radians - minAngle) / (maxAngle - minAngle)
+        relativePosition = (radians + self.offsetAngle - minAngle) / (maxAngle - minAngle)
         assert -0.001 < relativePosition < 1.001
         pulse = int(minPulse + (maxPulse - minPulse) * relativePosition)
 
