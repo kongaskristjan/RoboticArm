@@ -31,11 +31,17 @@ def moveToPosition(x, y, t):
     time.sleep(t)
 
 
+class Coords:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+
 class LineDrawer:
     def __init__(self):
         self.x, self.y = None, None
 
-    def draw(self, x, y, speed):
+    def draw(self, x, y, speed, ledValue):
+        led.setValue(ledValue)
         if self.x is None and self.y is None:
             self.x, self.y = x, y
             moveToPosition(x, y, 0)
@@ -48,18 +54,35 @@ class LineDrawer:
             moveToPosition(self.x + i * dx, self.y + i * dy, dt)
         self.x, self.y = x, y
 
+    def drawSegments(self, coords, speedActive, speedInactive):
+        for innerCoords in coords:
+            self.draw(innerCoords[0].x, innerCoords[0].y, speedInactive, False)
+            for c in innerCoords[1:]:
+                self.draw(c.x, c.y, speedActive, True)
+
 
 def main():
+    coords = [
+        [
+            Coords(9, -3),
+            Coords(9, 3),
+        ],
+        [
+            Coords(9, -3),
+            Coords(12, -3),
+        ],
+        [
+            Coords(9, 0),
+            Coords(12, 0),
+        ],
+        [
+            Coords(9, 3),
+            Coords(12, 3),
+        ],
+    ]
+
     lineDrawer = LineDrawer()
-    r = 3.5
-    speed = 8
-
-    for i in range(11):
-        angle = (2 / 5) * (2 * math.pi) * i
-        led.setValue(random.randint(0, 1))
-        lineDrawer.draw(13 - r + r * math.cos(angle), r * math.sin(angle), speed)
-    time.sleep(0.4)
-
+    lineDrawer.drawSegments(coords, 8, 40) # draw an "E"
 
 if __name__ == "__main__":
     try:
