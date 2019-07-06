@@ -24,3 +24,16 @@ class Servo:
 
     def __del__(self):
         pi.set_mode(self.gpio, pigpio.INPUT)
+
+
+class Led:
+    def __init__(self, gpio):
+        self.gpio = gpio
+        pi.set_mode(gpio, pigpio.OUTPUT)
+
+    def setValue(self, value):
+        pi.write(self.gpio, value)
+
+    def __del__(self):
+        pi.write(self.gpio, 0)
+        pi.set_mode(self.gpio, pigpio.INPUT)

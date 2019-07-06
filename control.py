@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-import servoLib
-import math, time
+import devices
+import math, time, random
 
-near = servoLib.Servo(18, offsetAngle=0.12)
-far = servoLib.Servo(17, offsetAngle=1.08)
+near = devices.Servo(18, offsetAngle=0.12)
+far = devices.Servo(17, offsetAngle=1.08)
+led = devices.Led(27)
 
 def computeAngles(x, y):
     l0, l1 = 5.5, 7.6
@@ -52,14 +53,17 @@ def main():
     lineDrawer = LineDrawer()
     r = 3.5
     speed = 8
-    for i in range(31):
+
+    for i in range(11):
         angle = (2 / 5) * (2 * math.pi) * i
+        led.setValue(random.randint(0, 1))
         lineDrawer.draw(13 - r + r * math.cos(angle), r * math.sin(angle), speed)
     time.sleep(0.4)
+
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
         pass
-    del near, far
+    del near, far, led
