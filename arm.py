@@ -11,6 +11,10 @@ class Arm:
 
     def drawText(self, text, speedActive, speedInactive, letterSleep):
         for chr in text:
+            if chr == " ":
+                time.sleep(3 * letterSleep)
+                continue
+
             coords = letters.coordsMap[chr.upper()]
             self.drawSegments(coords, speedActive, speedInactive)
             self.led.setValue(False)
