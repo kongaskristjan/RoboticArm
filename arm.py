@@ -1,19 +1,27 @@
 
-import devices
+import devices, letters
 import math, time
 
-
-class Coords:
-    def __init__(self, x, y):
-        self.x, self.y = x, y
-
-
-class LineDrawer:
+class Arm:
     def __init__(self):
         self.x, self.y = None, None
         self.near = devices.Servo(18, offsetAngle=0.12)
         self.far = devices.Servo(17, offsetAngle=1.08)
         self.led = devices.Led(27)
+
+    def drawText(self, text, speedActive, speedInactive, letterSleep):
+        for chr in text:
+            coords = letters.coordsMap[chr.upper()]
+            self.drawSegments(coords, speedActive, speedInactive)
+            self.led.setValue(False)
+            time.sleep(letterSleep)
+
+    def drawSegments(self, coords, speedActive, speedInactive):
+        for innerCoords in coords:
+            x, y = innerCoords[0]
+            self.draw(x, y, speedInactive, False)
+            for x, y in innerCoords[1:]:
+                self.draw(x, y, speedActive, True)
 
     def draw(self, x, y, speed, ledValue):
         self.led.setValue(ledValue)
@@ -28,12 +36,6 @@ class LineDrawer:
         for i in range(int(math.hypot(x - self.x, y - self.y) / (speed * dt))):
             self.moveToPosition(self.x + i * dx, self.y + i * dy, dt)
         self.x, self.y = x, y
-
-    def drawSegments(self, coords, speedActive, speedInactive):
-        for innerCoords in coords:
-            self.draw(innerCoords[0].x, innerCoords[0].y, speedInactive, False)
-            for c in innerCoords[1:]:
-                self.draw(c.x, c.y, speedActive, True)
 
     def moveToPosition(self, x, y, t):
         nearAngle, farAngle = self.computeAngles(x, y)

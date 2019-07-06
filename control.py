@@ -1,29 +1,10 @@
 #!/usr/bin/python3
 
-import Arm
+import arm
 
 def main():
-    coords = [
-        [
-            Arm.Coords(9, -3),
-            Arm.Coords(9, 3),
-        ],
-        [
-            Arm.Coords(9, -3),
-            Arm.Coords(12, -3),
-        ],
-        [
-            Arm.Coords(9, 0),
-            Arm.Coords(12, 0),
-        ],
-        [
-            Arm.Coords(9, 3),
-            Arm.Coords(12, 3),
-        ],
-    ]
-
-    lineDrawer = Arm.LineDrawer()
-    lineDrawer.drawSegments(coords, 8, 40) # draw an "E"
+    lineDrawer = arm.Arm()
+    lineDrawer.drawText("abba", 8, 20, 0.3)
 
 if __name__ == "__main__":
     try:
