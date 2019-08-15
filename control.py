@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 
-import arm, time
+import arm, time, fire
 
-def main():
-    speedActive = 5
-    speedInactive = 16
-    letterSleep = 0.5
+def main(speed=1):
+    speedActive = 5 * speed
+    speedInactive = 16 * speed
+    letterSleep = 0.5 / speed
 
     lineDrawer = arm.Arm()
     #lineDrawer.setStraight()
@@ -16,6 +16,6 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        fire.Fire(main)
     except KeyboardInterrupt:
         del arm
