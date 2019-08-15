@@ -66,3 +66,6 @@ class Arm:
         # Transform (dist, 0) -> (x, y)
         angle0 += math.atan2(y, x)
         return angle0, angle1
+
+    def __del__(self):
+        del self.near, self.far, self.led
