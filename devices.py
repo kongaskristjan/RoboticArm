@@ -27,12 +27,19 @@ class Servo:
 
 
 class Led:
-    def __init__(self, gpio):
+    def __init__(self, gpio, brightnessMultipler=1, frequency=500):
         self.gpio = gpio
+        self.brightnessMultiplier = brightnessMultipler
         pi.set_mode(gpio, pigpio.OUTPUT)
+        pi.set_PWM_frequency(self.gpio, frequency)
 
-    def setValue(self, value):
-        pi.write(self.gpio, value)
+    def setValue(self, brightness):
+        if type(brightness) == bool:
+            brightness = int(brightness)
+
+        dutycycle = int(255.5 * self.brightnessMultiplier * brightness)
+        assert 0 <= dutycycle <= 255
+        pi.set_PWM_dutycycle(self.gpio, dutycycle)
 
     def __del__(self):
         pi.write(self.gpio, 0)

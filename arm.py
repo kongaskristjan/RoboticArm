@@ -7,7 +7,7 @@ class Arm:
         self.x, self.y = None, None
         self.near = devices.Servo(18, offsetAngle=0.05)
         self.far = devices.Servo(17, offsetAngle=1.08)
-        self.led = devices.Led(27)
+        self.led = devices.Led(27, brightnessMultipler=0.04)
 
     def setStraight(self):
         self.near.setPosition(0)
