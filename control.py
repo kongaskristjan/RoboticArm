@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import arm
+import arm, time
 
 def main():
     speedActive = 5
@@ -8,6 +8,8 @@ def main():
     letterSleep = 0.5
 
     lineDrawer = arm.Arm()
+    #lineDrawer.setStraight()
+    #time.sleep(5)
     #lineDrawer.drawText("ABCDEFGHIJKLMNOPQRSTUVWXYZ", speedActive, speedInactive, letterSleep)
     #lineDrawer.drawText("., !?", speedActive, speedInactive, letterSleep)
     lineDrawer.drawText("Tere Liisi, Madli, Kristjan, Lauri, Rutt, Olav ja kassid!", speedActive, speedInactive, letterSleep)

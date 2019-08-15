@@ -5,9 +5,13 @@ import math, time
 class Arm:
     def __init__(self):
         self.x, self.y = None, None
-        self.near = devices.Servo(18, offsetAngle=0.12)
+        self.near = devices.Servo(18, offsetAngle=0.05)
         self.far = devices.Servo(17, offsetAngle=1.08)
         self.led = devices.Led(27)
+
+    def setStraight(self):
+        self.near.setPosition(0)
+        self.far.setPosition(0)
 
     def drawText(self, text, speedActive, speedInactive, letterSleep):
         for chr in text:
