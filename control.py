@@ -7,12 +7,12 @@ def main(speed=1, text="Hello world!", test=False):
     speedInactive = 16 * speed
     letterSleep = 0.5 / speed
 
-    lineDrawer = arm.Arm()
+    lineDrawer = arm.Arm(speedActive, speedInactive, letterSleep)
     if test:
         lineDrawer.setStraight()
         time.sleep(2)
     else:
-        lineDrawer.drawText(str(text), speedActive, speedInactive, letterSleep)
+        lineDrawer.drawText(str(text))
 
 
 if __name__ == "__main__":

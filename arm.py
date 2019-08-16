@@ -3,42 +3,47 @@ import devices, letters
 import math, time
 
 class Arm:
-    def __init__(self):
+    def __init__(self, speedActive, speedInactive, letterSleep):
         self.x, self.y = None, None
         self.near = devices.Servo(18, offsetAngle=0.05)
         self.far = devices.Servo(17, offsetAngle=1.08)
         self.led = devices.Led(27, brightnessMultipler=0.04)
 
+        self.speedActive = speedActive
+        self.speedInactive = speedInactive
+        self.letterSleep = letterSleep
+
     def setStraight(self):
         self.near.setPosition(0)
         self.far.setPosition(0)
 
-    def drawText(self, text, speedActive, speedInactive, letterSleep):
+    def drawText(self, text):
         for chr in text:
             if chr == " ":
-                time.sleep(3 * letterSleep)
+                time.sleep(3 * self.letterSleep)
                 continue
 
             coords = letters.coordsMap[chr.upper()]
-            self.drawSegments(coords, speedActive, speedInactive)
+            self.drawSegments(coords)
             self.led.setValue(False)
-            time.sleep(letterSleep)
+            time.sleep(self.letterSleep)
 
-    def drawSegments(self, coords, speedActive, speedInactive):
+    def drawSegments(self, coords):
         for innerCoords in coords:
             x, y = innerCoords[0]
-            self.draw(x, y, speedInactive, False)
+            self.draw(x, y, False)
             for x, y in innerCoords[1:]:
-                self.draw(x, y, speedActive, True)
+                self.draw(x, y, True)
 
-    def draw(self, x, y, speed, ledValue):
-        self.led.setValue(ledValue)
+    def draw(self, x, y, ledActive):
+        self.led.setValue(ledActive)
         if self.x is None and self.y is None:
             self.x, self.y = x, y
             self.moveToPosition(x, y, 0)
             return
 
         dt = 0.01
+        speed = self.speedActive if ledActive else self.speedInactive
         dx = speed * dt * (x - self.x) / (math.hypot(x - self.x, y - self.y) + 1e-6)
         dy = speed * dt * (y - self.y) / (math.hypot(x - self.x, y - self.y) + 1e-6)
         for i in range(int(math.hypot(x - self.x, y - self.y) / (speed * dt))):
