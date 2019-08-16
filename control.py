@@ -2,12 +2,12 @@
 
 import arm, time, fire
 
-def main(speed=1, text="Hello world!", test=False):
+def main(speed=1, text="Hello world!", test=False, brightness=0.05):
     speedActive = 5 * speed
     speedInactive = 16 * speed
     letterSleep = 0.5 / speed
 
-    lineDrawer = arm.Arm(speedActive, speedInactive, letterSleep)
+    lineDrawer = arm.Arm(speedActive, speedInactive, letterSleep, brightness)
     if test:
         lineDrawer.setStraight()
         time.sleep(2)
